@@ -2,11 +2,17 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth.js'
+import adminRoutes from './routes/admin.js'
+import bookRoutes from './routes/routes.js'
+import connectToDB from './middleware/connection.js'
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
+
+// Connect to MongoDB
+connectToDB()
 
 // Middleware
 app.use(cors())
@@ -20,6 +26,8 @@ app.get('/api/health', (req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes)
+app.use('/api/admin', adminRoutes)
+app.use('/api', bookRoutes)
 
 // Error handling middleware
 app.use((err, req, res, next) => {

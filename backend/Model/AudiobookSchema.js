@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const bookSchema = new mongoose.Schema({
+const audiobookSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -14,10 +14,19 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  narrator: {
+    type: String,
+    required: false,
+  },
   image_link: {
     type: String,
     required: true,
   },
+  amazon_link: {
+    type: String,
+    required: false,
+  },
 }, { timestamps: true });
 
-export default mongoose.model('FictionBook', bookSchema);
+export default mongoose.model('Audiobook', audiobookSchema);
+

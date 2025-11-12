@@ -1,0 +1,67 @@
+.scroll-section {
+  margin-bottom: 48px;
+}
+
+.scroll-section-title {
+  color: #4a9eff;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding: 0 24px;
+}
+
+.scroll-section-title:empty {
+  display: none;
+}
+
+.scroll-section-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(74, 158, 255, 0.5) transparent;
+}
+
+.scroll-section-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-section-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-section-container::-webkit-scrollbar-thumb {
+  background: rgba(74, 158, 255, 0.5);
+  border-radius: 4px;
+}
+
+.scroll-section-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 158, 255, 0.7);
+}
+
+.scroll-section-content {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 8px;
+}
+
+.scroll-section-loading,
+.scroll-section-error,
+.scroll-section-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .scroll-section-title {
+    font-size: 20px;
+    padding: 0 16px;
+  }
+
+  .scroll-section-container {
+    padding: 0 16px;
+  }
+}
+

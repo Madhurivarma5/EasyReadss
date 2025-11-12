@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const bookSchema = new mongoose.Schema({
+const ebookSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -18,6 +18,11 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  amazon_link: {
+    type: String,
+    required: false,
+  },
 }, { timestamps: true });
 
-export default mongoose.model('FictionBook', bookSchema);
+export default mongoose.model('EBook', ebookSchema);
+

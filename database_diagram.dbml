@@ -1,0 +1,218 @@
+// EasyReads Database Diagram
+// Docs: https://dbml.dbdiagram.io/docs
+// MongoDB Collections represented as DBML tables
+
+//----------------------------------------------//
+// Main Book Collections
+//----------------------------------------------//
+
+Table books {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  amazon_link varchar [not null]
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+Table ebooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  amazon_link varchar
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+Table audiobooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  narrator varchar
+  image_link varchar [not null]
+  amazon_link varchar
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+//----------------------------------------------//
+// Category Book Collections
+//----------------------------------------------//
+
+Table fictionbooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+Table sciencebooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+Table biographybooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+Table fantasybooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+Table historybooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+Table technologybooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+Table romancebooks {
+  _id ObjectId [pk]
+  name varchar [not null]
+  ISBN varchar [not null, unique]
+  author varchar [not null]
+  image_link varchar [not null]
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    ISBN [unique]
+    _id [pk]
+  }
+}
+
+//----------------------------------------------//
+// User Collection (Optional - Primary auth via Firebase)
+//----------------------------------------------//
+
+Table users {
+  _id ObjectId [pk]
+  username varchar [not null, unique]
+  password varchar [not null, note: 'Hashed password']
+  createdAt datetime [default: `now()`]
+  updatedAt datetime [default: `now()`]
+  
+  Indexes {
+    username [unique]
+    _id [pk]
+  }
+}
+
+//----------------------------------------------//
+// Notes
+//----------------------------------------------//
+
+Note books {
+  'General Books Collection
+  Stores all general books with Amazon links'
+}
+
+Note ebooks {
+  'E-Books Collection
+  Digital books collection
+  Amazon link is optional'
+}
+
+Note audiobooks {
+  'Audiobooks Collection
+  Audio book collection
+  Includes narrator field for audio books'
+}
+
+Note fictionbooks {
+  'Category Books Collections
+  Fiction, Science, Biography, Fantasy, History, Technology, Romance
+  All category collections have the same structure:
+  - name, ISBN, author, image_link
+  - No amazon_link field'
+}
+
+Note users {
+  'User Collection (Optional)
+  Primary authentication is handled by Firebase Auth
+  This MongoDB collection can be used for additional user data storage'
+}
+

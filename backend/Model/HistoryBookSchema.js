@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const bookSchema = new mongoose.Schema({
   name: {
@@ -20,4 +20,4 @@ const bookSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-module.exports = mongoose.model('HistoryBook', bookSchema);
+export default mongoose.model('HistoryBook', bookSchema);

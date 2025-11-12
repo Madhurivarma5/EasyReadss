@@ -1,0 +1,338 @@
+@startuml EasyReads Class Diagram
+
+!define BACKEND_COLOR #E1F5FF
+!define FRONTEND_COLOR #FFF4E1
+!define MODEL_COLOR #E8F5E9
+!define COMPONENT_COLOR #F3E5F5
+
+package "Backend (Node.js/Express)" BACKEND_COLOR {
+  
+  package "Models" MODEL_COLOR {
+    class BookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +String amazon_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class EBookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +String amazon_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class AudiobookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String narrator
+      +String image_link
+      +String amazon_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class FictionBookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class ScienceBookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class BiographyBookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class FantasyBookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class HistoryBookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class TechnologyBookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class RomanceBookSchema {
+      +String name
+      +String ISBN {unique}
+      +String author
+      +String image_link
+      +Date createdAt
+      +Date updatedAt
+    }
+    
+    class UserSchema {
+      +String username {unique}
+      +String password {hashed}
+      +Date createdAt
+      +Date updatedAt
+    }
+  }
+  
+  package "Routes" {
+    class BookRoutes {
+      +GET /api/books()
+      +GET /api/fiction()
+      +GET /api/science()
+      +GET /api/biography()
+      +GET /api/fantasy()
+      +GET /api/history()
+      +GET /api/technology()
+      +GET /api/romance()
+      +GET /api/ebooks()
+      +GET /api/audiobooks()
+    }
+    
+    class AuthRoutes {
+      +GET /api/auth/verify()
+      +GET /api/auth/user()
+    }
+    
+    class AdminRoutes {
+      +GET /api/admin/users()
+      +GET /api/admin/user/:uid()
+    }
+  }
+  
+  package "Middleware" {
+    class ConnectionMiddleware {
+      +connectToDB()
+    }
+    
+    class AuthMiddleware {
+      +verifyToken()
+      +getUserInfo()
+    }
+  }
+  
+  class Server {
+    +app: Express
+    +PORT: Number
+    +useRoutes()
+    +listen()
+  }
+}
+
+package "Frontend (React)" FRONTEND_COLOR {
+  
+  package "Pages" {
+    class Home {
+      +render()
+    }
+    
+    class Books {
+      +books: Array
+      +selectedCategory: String
+      +fetchBooks()
+      +handleCategoryChange()
+    }
+    
+    class DigitalBooks {
+      +ebooks: Array
+      +audiobooks: Array
+      +fetchDigitalContent()
+      +loadMoreEBooks()
+      +loadMoreAudiobooks()
+    }
+    
+    class Login {
+      +email: String
+      +password: String
+      +handleSubmit()
+    }
+    
+    class Signup {
+      +email: String
+      +password: String
+      +username: String
+      +handleSubmit()
+    }
+    
+    class Admin {
+      +users: Array
+      +fetchUsers()
+      +handleLogout()
+    }
+  }
+  
+  package "Components" COMPONENT_COLOR {
+    class Navbar {
+      +currentUser: Object
+      +handleLogout()
+    }
+    
+    class Footer {
+      +render()
+    }
+    
+    class BookCard {
+      +book: Object
+      +type: String
+      +handlePreview()
+    }
+    
+    class Categories {
+      +categories: Array
+      +handleCategoryClick()
+    }
+    
+    class Recommendations {
+      +recommendations: Array
+      +fetchRecommendations()
+      +shuffleArray()
+    }
+    
+    class HorizontalScrollSection {
+      +title: String
+      +fetchUrl: String
+      +type: String
+      +books: Array
+      +fetchBooks()
+    }
+    
+    class GoogleBooksSection {
+      +title: String
+      +type: String
+      +books: Array
+      +fetchBooks()
+    }
+  }
+  
+  package "Contexts" {
+    class AuthContext {
+      +currentUser: Object
+      +signup()
+      +login()
+      +logout()
+    }
+  }
+  
+  package "Utils" {
+    class AdminUtils {
+      +isAdmin(email): Boolean
+      +getAdminEmails(): Array
+    }
+  }
+  
+  class App {
+    +routes: Routes
+    +PrivateRoute()
+    +AdminRoute()
+  }
+}
+
+package "External Services" {
+  class FirebaseAuth {
+    +createUserWithEmailAndPassword()
+    +signInWithEmailAndPassword()
+    +signOut()
+    +onAuthStateChanged()
+  }
+  
+  class GoogleBooksAPI {
+    +volumes?q=filter=ebooks
+    +volumes?q=subject:audiobooks
+  }
+  
+  class MongoDB {
+    +books collection
+    +ebooks collection
+    +audiobooks collection
+    +category collections
+  }
+}
+
+' Relationships
+BookRoutes --> BookSchema : uses
+BookRoutes --> EBookSchema : uses
+BookRoutes --> AudiobookSchema : uses
+BookRoutes --> FictionBookSchema : uses
+BookRoutes --> ScienceBookSchema : uses
+BookRoutes --> BiographyBookSchema : uses
+BookRoutes --> FantasyBookSchema : uses
+BookRoutes --> HistoryBookSchema : uses
+BookRoutes --> TechnologyBookSchema : uses
+BookRoutes --> RomanceBookSchema : uses
+
+Server --> BookRoutes : uses
+Server --> AuthRoutes : uses
+Server --> AdminRoutes : uses
+Server --> ConnectionMiddleware : uses
+
+AuthRoutes --> AuthMiddleware : uses
+AdminRoutes --> AuthMiddleware : uses
+
+Home --> Navbar : contains
+Home --> Footer : contains
+Home --> Categories : contains
+Home --> Recommendations : contains
+Home --> HorizontalScrollSection : contains
+Home --> GoogleBooksSection : contains
+
+Books --> Navbar : contains
+Books --> Footer : contains
+Books --> BookCard : contains
+
+DigitalBooks --> Navbar : contains
+DigitalBooks --> Footer : contains
+
+Login --> AuthContext : uses
+Signup --> AuthContext : uses
+Admin --> AuthContext : uses
+Navbar --> AuthContext : uses
+
+App --> Home : routes to
+App --> Books : routes to
+App --> DigitalBooks : routes to
+App --> Login : routes to
+App --> Signup : routes to
+App --> Admin : routes to
+
+AuthContext --> FirebaseAuth : uses
+GoogleBooksSection --> GoogleBooksAPI : fetches from
+BookRoutes --> MongoDB : queries
+ConnectionMiddleware --> MongoDB : connects to
+
+@enduml
+

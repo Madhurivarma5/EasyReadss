@@ -1,0 +1,242 @@
+.digital-books-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6e 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.digital-books-main {
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 48px 24px;
+}
+
+.digital-books-content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.digital-books-header {
+  margin-bottom: 16px;
+}
+
+.digital-books-title {
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.digital-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.digital-section-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0 24px;
+}
+
+.ebook-title {
+  color: #4fd1c7;
+}
+
+.audiobook-title {
+  color: #a78bfa;
+}
+
+.digital-scroll-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(74, 158, 255, 0.5) transparent;
+}
+
+.digital-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.digital-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.digital-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(74, 158, 255, 0.5);
+  border-radius: 4px;
+}
+
+.digital-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 158, 255, 0.7);
+}
+
+.digital-scroll-content {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 8px;
+}
+
+.digital-book-card {
+  flex-shrink: 0;
+  width: 200px;
+  background: rgba(30, 40, 50, 0.95);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.digital-book-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.digital-book-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: rgba(40, 50, 60, 0.5);
+}
+
+.digital-book-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.digital-book-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.digital-book-author {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.digital-book-link {
+  display: block;
+  margin-top: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.ebook-link {
+  color: #4fd1c7;
+}
+
+.ebook-link:hover {
+  color: #38b2ac;
+}
+
+.audiobook-link {
+  color: #a78bfa;
+}
+
+.audiobook-link:hover {
+  color: #8b5cf6;
+}
+
+.digital-load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  padding: 0 24px;
+}
+
+.digital-load-more-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.digital-load-more-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ebook-btn {
+  background: #4fd1c7;
+  color: #1a202c;
+}
+
+.ebook-btn:hover:not(:disabled) {
+  background: #38b2ac;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 209, 199, 0.4);
+}
+
+.audiobook-btn {
+  background: #a78bfa;
+  color: #1a202c;
+}
+
+.audiobook-btn:hover:not(:disabled) {
+  background: #8b5cf6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(167, 139, 250, 0.4);
+}
+
+.digital-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .digital-books-main {
+    padding: 32px 16px;
+  }
+
+  .digital-books-title {
+    font-size: 28px;
+  }
+
+  .digital-section-title {
+    font-size: 20px;
+    padding: 0 16px;
+  }
+
+  .digital-scroll-container {
+    padding: 0 16px;
+  }
+
+  .digital-book-card {
+    width: 180px;
+  }
+
+  .digital-load-more-container {
+    padding: 0 16px;
+  }
+}

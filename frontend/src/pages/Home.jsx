@@ -1,59 +1,56 @@
-import { useAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+import Categories from '../components/Categories'
+import Recommendations from '../components/Recommendations'
+import HorizontalScrollSection from '../components/HorizontalScrollSection'
+import GoogleBooksSection from '../components/GoogleBooksSection'
 import './Home.css'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+
 function Home() {
-  const { currentUser, logout } = useAuth()
-  const navigate = useNavigate()
-
-  async function handleLogout() {
-    try {
-      await logout()
-      navigate('/login')
-    } catch (error) {
-      console.error('Failed to log out', error)
-    }
-  }
-
   return (
-    <div className="home-container">
-      <nav className="home-nav">
-        <div className="nav-content">
-          <h1 className="nav-logo">EasyReads</h1>
-          <button onClick={handleLogout} className="logout-button">
-            Logout
-          </button>
-        </div>
-      </nav>
-      
+    <div className="home-page">
+      <Navbar />
       <main className="home-main">
         <div className="home-content">
-          <div className="welcome-section">
-            <h2>Welcome to EasyReads!</h2>
-            <p>You have successfully logged in.</p>
-          </div>
-          
-          <div className="user-info-card">
-            <h3>User Information</h3>
-            <div className="info-item">
-              <span className="info-label">Email:</span>
-              <span className="info-value">{currentUser?.email || 'N/A'}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-label">User ID:</span>
-              <span className="info-value">{currentUser?.uid || 'N/A'}</span>
-            </div>
-          </div>
-          
-          <div className="placeholder-content">
-            <p>This is a placeholder home page.</p>
-            <p>You can build your EasyReads features here!</p>
-          </div>
+          {/* Welcome Section */}
+          <section className="welcome-section">
+            <h1 className="welcome-title">Hi there, Welcome to EasyReads</h1>
+            <p className="welcome-subtitle">
+              Explore books, discover recommendations, and experience our comprehensive library system.
+            </p>
+          </section>
+
+          {/* Categories Section */}
+          <Categories />
+
+          {/* Recommendations Section */}
+          <Recommendations />
+
+          {/* Books Section */}
+          <HorizontalScrollSection
+            title="Books"
+            fetchUrl={`${API_BASE_URL}/books`}
+            type="book"
+          />
+
+          {/* E-Books Section */}
+          <GoogleBooksSection
+            title="E-Books"
+            type="ebooks"
+          />
+
+          {/* Audiobooks Section */}
+          <GoogleBooksSection
+            title="Audiobooks"
+            type="audiobooks"
+          />
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
 
 export default Home
-
