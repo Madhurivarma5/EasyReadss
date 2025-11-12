@@ -1,15 +1,15 @@
 // EasyReads Database Diagram
 // Docs: https://dbml.dbdiagram.io/docs
-// MongoDB Collections represented as DBML tables
+// MongoDB Collections with Relationships
 
 //----------------------------------------------//
-// Main Book Collections
+// Core Book Collections
 //----------------------------------------------//
 
 Table books {
   _id ObjectId [pk]
   name varchar [not null]
-  ISBN varchar [not null, unique]
+  ISBN varchar [not null, unique, note: 'Unique identifier across all collections']
   author varchar [not null]
   image_link varchar [not null]
   amazon_link varchar [not null]
@@ -17,7 +17,7 @@ Table books {
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -25,7 +25,7 @@ Table books {
 Table ebooks {
   _id ObjectId [pk]
   name varchar [not null]
-  ISBN varchar [not null, unique]
+  ISBN varchar [not null, unique, note: 'Unique identifier, can reference books.ISBN']
   author varchar [not null]
   image_link varchar [not null]
   amazon_link varchar
@@ -33,7 +33,7 @@ Table ebooks {
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -41,16 +41,16 @@ Table ebooks {
 Table audiobooks {
   _id ObjectId [pk]
   name varchar [not null]
-  ISBN varchar [not null, unique]
+  ISBN varchar [not null, unique, note: 'Unique identifier, can reference books.ISBN']
   author varchar [not null]
-  narrator varchar
+  narrator varchar [note: 'Audio book narrator name']
   image_link varchar [not null]
   amazon_link varchar
   createdAt datetime [default: `now()`]
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -62,14 +62,14 @@ Table audiobooks {
 Table fictionbooks {
   _id ObjectId [pk]
   name varchar [not null]
-  ISBN varchar [not null, unique]
+  ISBN varchar [not null, unique, note: 'Can reference books.ISBN if same book exists']
   author varchar [not null]
   image_link varchar [not null]
   createdAt datetime [default: `now()`]
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -84,7 +84,7 @@ Table sciencebooks {
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -99,7 +99,7 @@ Table biographybooks {
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -114,7 +114,7 @@ Table fantasybooks {
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -129,7 +129,7 @@ Table historybooks {
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -144,7 +144,7 @@ Table technologybooks {
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
@@ -159,60 +159,106 @@ Table romancebooks {
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    ISBN [unique]
+    ISBN [unique, name: 'idx_isbn']
     _id [pk]
   }
 }
 
 //----------------------------------------------//
-// User Collection (Optional - Primary auth via Firebase)
+// User Collection
 //----------------------------------------------//
 
 Table users {
   _id ObjectId [pk]
-  username varchar [not null, unique]
-  password varchar [not null, note: 'Hashed password']
+  username varchar [not null, unique, note: 'Unique username for MongoDB user storage']
+  password varchar [not null, note: 'Bcrypt hashed password']
   createdAt datetime [default: `now()`]
   updatedAt datetime [default: `now()`]
   
   Indexes {
-    username [unique]
+    username [unique, name: 'idx_username']
     _id [pk]
   }
 }
 
 //----------------------------------------------//
-// Notes
+// Relationships (Logical connections via ISBN)
+//----------------------------------------------//
+
+// ISBN serves as a logical connection between collections
+// A book can exist in multiple formats (physical, ebook, audiobook)
+// and can belong to multiple categories
+
+Ref: ebooks.ISBN - books.ISBN [note: 'E-book version of physical book']
+Ref: audiobooks.ISBN - books.ISBN [note: 'Audiobook version of physical book']
+
+// Category books can reference main books collection via ISBN
+Ref: fictionbooks.ISBN - books.ISBN [note: 'Fiction category book']
+Ref: sciencebooks.ISBN - books.ISBN [note: 'Science category book']
+Ref: biographybooks.ISBN - books.ISBN [note: 'Biography category book']
+Ref: fantasybooks.ISBN - books.ISBN [note: 'Fantasy category book']
+Ref: historybooks.ISBN - books.ISBN [note: 'History category book']
+Ref: technologybooks.ISBN - books.ISBN [note: 'Technology category book']
+Ref: romancebooks.ISBN - books.ISBN [note: 'Romance category book']
+
+//----------------------------------------------//
+// Notes and Documentation
 //----------------------------------------------//
 
 Note books {
-  'General Books Collection
-  Stores all general books with Amazon links'
+  '**Main Books Collection**
+  
+  Stores physical books with Amazon purchase links.
+  This is the primary collection for general books.
+  
+  **Key Features:**
+  - ISBN is unique and serves as identifier
+  - All fields are required
+  - Timestamps auto-managed by Mongoose'
 }
 
 Note ebooks {
-  'E-Books Collection
-  Digital books collection
-  Amazon link is optional'
+  '**E-Books Collection**
+  
+  Digital book format collection.
+  Can be linked to physical books via ISBN.
+  
+  **Key Features:**
+  - amazon_link is optional (may use different platform)
+  - Same ISBN can exist in books collection'
 }
 
 Note audiobooks {
-  'Audiobooks Collection
-  Audio book collection
-  Includes narrator field for audio books'
+  '**Audiobooks Collection**
+  
+  Audio format books with narrator information.
+  
+  **Key Features:**
+  - Includes narrator field for audio books
+  - Can reference same book via ISBN'
 }
 
 Note fictionbooks {
-  'Category Books Collections
-  Fiction, Science, Biography, Fantasy, History, Technology, Romance
-  All category collections have the same structure:
-  - name, ISBN, author, image_link
-  - No amazon_link field'
+  '**Category Collections**
+  
+  Fiction, Science, Biography, Fantasy, History, Technology, Romance.
+  
+  **Structure:**
+  - All category collections have identical schema
+  - No amazon_link field (category-specific)
+  - ISBN can reference main books collection
+  
+  **Usage:**
+  - Books can belong to multiple categories
+  - Same ISBN can exist in multiple category collections'
 }
 
 Note users {
-  'User Collection (Optional)
-  Primary authentication is handled by Firebase Auth
-  This MongoDB collection can be used for additional user data storage'
+  '**User Collection (Optional)**
+  
+  MongoDB user storage for additional user data.
+  Primary authentication handled by Firebase Auth.
+  
+  **Note:** This collection is optional as Firebase
+  handles authentication. Use for extended user profiles.'
 }
-
